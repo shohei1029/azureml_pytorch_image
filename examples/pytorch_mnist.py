@@ -1,6 +1,11 @@
-#Adapted from https://github.com/pytorch/examples/blob/master/mnist/main.py
+# Copyright (c) 2021, PyTorch contributors
+# Modifed by Shohei N.
+# Licensed under the BSD license
+# Adapted from https://github.com/pytorch/examples/blob/master/mnist/main.py
+
 
 from __future__ import print_function
+import os
 import argparse
 import torch
 import torch.nn as nn
@@ -125,7 +130,7 @@ def main():
         help='how many batches to wait before logging training status')
     parser.add_argument('--save-model',
                         action='store_true',
-                        default=False,
+                        default=True,
                         help='For Saving the current Model')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
@@ -140,6 +145,17 @@ def main():
         cuda_kwargs = {'num_workers': 1, 'pin_memory': True, 'shuffle': True}
         train_kwargs.update(cuda_kwargs)
         test_kwargs.update(cuda_kwargs)
+
+    # Use Azure Open Datasets for MNIST dataset
+    datasets.MNIST.resources = [
+        ("https://azureopendatastorage.azurefd.net/mnist/train-images-idx3-ubyte.gz",
+        "f68b3c2dcbeaaa9fbdd348bbdeb94873"),
+        ("https://azureopendatastorage.azurefd.net/mnist/train-labels-idx1-ubyte.gz",
+        "d53e105ee54ea40749a09fcbcd1e9432"),
+        ("https://azureopendatastorage.azurefd.net/mnist/t10k-images-idx3-ubyte.gz",
+        "9fb629c4189551a2d022fa330f9573f3"),
+        ("https://azureopendatastorage.azurefd.net/mnist/t10k-labels-idx1-ubyte.gz",
+        "ec29112dd5afa0611ce80d1b7f02629c")
 
     transform = transforms.Compose(
         [transforms.ToTensor(),
@@ -162,7 +178,10 @@ def main():
         scheduler.step()
 
     if args.save_model:
-        torch.save(model.state_dict(), "mnist_cnn.pt")
+        os.makedirs(args.output_dir, exist_ok=True)
+        model_path = os.path.join("outputs", "mnist_cnn.pt")
+        torch.save(model.module.state_dict(), model_path)
+        #torch.save(model.state_dict(), "mnist_cnn.pt")
 
 
 if __name__ == '__main__':
