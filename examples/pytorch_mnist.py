@@ -186,7 +186,7 @@ def main():
         scheduler.step()
 
     if args.save_model:
-        os.makedirs(args.output_dir, exist_ok=True)
+        os.makedirs("outputs", exist_ok=True)
         model_path = os.path.join("outputs", "mnist_cnn.pt")
         torch.save(model.module.state_dict(), model_path)
         #torch.save(model.state_dict(), "mnist_cnn.pt")
