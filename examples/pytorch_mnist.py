@@ -62,6 +62,9 @@ def train(args, model, device, train_loader, optimizer, epoch):
             if args.dry_run:
                 break
 
+            # log the loss to the Azure ML run
+            run.log('loss', loss.item())
+
 
 def test(model, device, test_loader):
     model.eval()
