@@ -14,6 +14,11 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 
+from azureml.core.run import Run
+# get the Azure ML run object
+run = Run.get_context()
+
+print("Torch version:", torch.__version__)
 
 class Net(nn.Module):
     def __init__(self):
