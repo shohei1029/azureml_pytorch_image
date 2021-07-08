@@ -1,0 +1,14 @@
+name: pytorch_image
+dependencies:
+  - python=3.8
+  - pip
+  - notebook
+  - ipykernel
+  - pip:
+      - azureml-sdk==1.26.0
+      - azureml-widgets==1.26.0
+      - azureml-dataprep
+      - torch==1.6.0
+      - torchvision==0.7.0
+      - matplotlib
+      - pillow
