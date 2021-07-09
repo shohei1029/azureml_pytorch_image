@@ -2,6 +2,8 @@
 
 本コンテンツは、ローカルの Visual Studio Code (VSCode) 上から Azure Machine Learning を使用して PyTorch モデルでの画像分類を行うハンズオンコンテンツです。
 
+![](./img/environment_image.png)
+
 <br></br>
 
 ![](./img/AML_flow_image.png)
